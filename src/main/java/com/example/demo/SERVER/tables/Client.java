@@ -72,7 +72,6 @@ public class Client {
         this.phone = phone;
     }
 
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
     private Set<Order> orders;
 

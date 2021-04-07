@@ -48,6 +48,17 @@ public class Order {
         this.client = client;
     }
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    private DeliveryType deliveryType;
+
+    public DeliveryType getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(DeliveryType deliveryType) {
+        this.deliveryType = deliveryType;
+    }
 
     @Override
     public String toString() {
