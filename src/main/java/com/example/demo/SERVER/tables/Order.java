@@ -1,21 +1,23 @@
 package com.example.demo.SERVER.tables;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
 public class Order {
-    Order (){};
-    public Order(String info){
-        this.info = info;
+    public Order (){}
+    public Order(Long cost){
+        this.cost = cost;
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "OrderID")
-    @SequenceGenerator(name = "OrderID", sequenceName = "order_ID_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "cost", nullable = false)
+    private Long cost;
 
     public Long getId() {
         return id;
@@ -25,19 +27,16 @@ public class Order {
         this.id = id;
     }
 
-    @Column(name = "info")
-    private String info;
-
-    public String getInfo() {
-        return info;
+    public Long getCost() {
+        return cost;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setCost(Long cost) {
+        this.cost = cost;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client")
     private Client client;
 
     public Client getClient() {
@@ -48,23 +47,35 @@ public class Order {
         this.client = client;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn
-    private DeliveryType deliveryType;
 
-    public DeliveryType getDeliveryType() {
-        return deliveryType;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn
+    private Rate rate;
+
+    public Rate getRate() {
+        return rate;
     }
 
-    public void setDeliveryType(DeliveryType deliveryType) {
-        this.deliveryType = deliveryType;
+    public void setRate(Rate rate) {
+        this.rate = rate;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
+    public Shipping shipping;
+
+    public Shipping getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(Shipping shipping) {
+        this.shipping = shipping;
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", info=" + info +
+                ", cost=" + cost +
                 '}';
     }
 

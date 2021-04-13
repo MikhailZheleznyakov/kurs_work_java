@@ -2,7 +2,6 @@ package com.example.demo.SERVER.tables;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "clients",uniqueConstraints = {@UniqueConstraint(columnNames={"login"})})
@@ -15,21 +14,20 @@ public class Client {
         this.phone = phone;
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "ClientID")
-    @SequenceGenerator(name = "ClientID", sequenceName = "client_ID_seq", allocationSize = 1)
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column
+    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column
+    @Column(name = "login", nullable = false)
     private String login;
 
-    @Column
+    @Column(name = "phone", nullable = false)
     private String phone;
 
     public Long getId() {
@@ -72,14 +70,14 @@ public class Client {
         this.phone = phone;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-    private Set<Order> orders;
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "client")
+    private List<Order> orders;
 
-    public Set<Order> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<Order> orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 

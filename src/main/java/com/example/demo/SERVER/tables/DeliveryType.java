@@ -2,6 +2,7 @@ package com.example.demo.SERVER.tables;
 
 import javax.persistence.*;
 import java.util.List;
+
 @Entity
 @Table(name = "deliverytypes")
 public class DeliveryType {
@@ -22,6 +23,14 @@ public class DeliveryType {
     @Column(name = "description")
     private String description;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getTypeName() {
         return typeName;
     }
@@ -36,16 +45,6 @@ public class DeliveryType {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 
