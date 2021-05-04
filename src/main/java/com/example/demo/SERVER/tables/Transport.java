@@ -1,98 +1,45 @@
 package com.example.demo.SERVER.tables;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@Data
 @Table(name = "transports")
 public class Transport {
     public Transport(){}
-    public Transport(String name, Long capacity, Float wearout){
+    public Transport(String name, Integer capacity, Integer wearout, String transport_type){
         this.name = name;
         this.capacity = capacity;
         this.wearout = wearout;
+        this.transport_type = transport_type;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "capacity", nullable = false)
-    private Long capacity;
+    @Column(nullable = false)
+    private Integer capacity;
 
-    @Column(name = "wearout", nullable = false)
-    private Float wearout;
+    @Column(nullable = false)
+    private Integer wearout;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Long capacity) {
-        this.capacity = capacity;
-    }
-
-    public Float getWearout() {
-        return wearout;
-    }
-
-    public void setWearout(Float wearout) {
-        this.wearout = wearout;
-    }
+    @Column
+    private String transport_type;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "driver")
     private Driver driver;
-
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-    }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn
-    private TransportType transportType;
-
-    public TransportType getTransportType() {
-        return transportType;
-    }
-
-    public void setTransportType(TransportType transportType) {
-        this.transportType = transportType;
-    }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn
-    private Shipping shipping;
-
-    public Shipping getShipping() {
-        return shipping;
-    }
-
-    public void setShipping(Shipping shipping) {
-        this.shipping = shipping;
-    }
 
     @Override
     public String toString() {
@@ -101,6 +48,7 @@ public class Transport {
                 ", name='" + name + '\'' +
                 ", capacity=" + capacity +
                 ", wearout=" + wearout +
+                ", transport_type='" + transport_type + '\'' +
                 '}';
     }
 }

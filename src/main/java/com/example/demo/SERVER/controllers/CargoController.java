@@ -1,8 +1,12 @@
 package com.example.demo.SERVER.controllers;
 
+
 import com.example.demo.SERVER.repository.CargoRepository;
 import com.example.demo.SERVER.tables.Cargo;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
 
 import java.util.List;
 
@@ -21,29 +25,29 @@ public class CargoController {
         return this.cargoRepository.save(cargo);
     }
 
-    @GetMapping("/getCargo/{id}")
-    Cargo getCargo(@PathVariable Long id){
-        return this.cargoRepository.findCargoById(id);
-    }
-
-    @GetMapping("/allCargo")
+    @GetMapping("/getAllCargo")
     List<Cargo> getCargoAll(){
         return this.cargoRepository.findAll();
     }
 
-    @DeleteMapping("/deleteCargo={id}")
-    Cargo deleteCargo(@PathVariable Long id){
-        return this.cargoRepository.deleteCargoById(id);
+    @DeleteMapping("/deleteCargo/{id}")
+    public ResponseEntity<?> deleteCargo(@PathVariable Long id){
+        return cargoRepository.findById(id)
+                .map(cargo -> {
+                    cargoRepository.delete(cargo);
+                    return ResponseEntity.ok().build();
+                }).orElseThrow(()-> new ResourceNotFoundException("not found" + id));
+
     }
 
-    @PutMapping("/putCargo={id}")
-    Cargo updateCargo(@PathVariable Long id, @RequestBody Cargo cargoUpdate) {
-        Cargo cargo = cargoRepository.findCargoById(id);
-        cargo.setId(cargoUpdate.getId());
-        cargo.setName(cargoUpdate.getName());
-        cargo.setOrder(cargoUpdate.getOrder());
-        cargo.setWeight(cargoUpdate.getWeight());
-        return cargoRepository.save(cargo);
+    @PutMapping("/updateCargo/{id}")
+    public Cargo updateCargo(@PathVariable Long id, @RequestBody Cargo cargoUpdate) {
+        return cargoRepository.findById(id)
+                .map(cargo -> {
+                    cargo.setName(cargoUpdate.getName());
+                    cargo.setWeight(cargoUpdate.getWeight());
+                    cargo.setOrder(cargoUpdate.getOrder());
+                    return cargoRepository.save(cargo);
+                }).orElseThrow(()-> new ResourceNotFoundException("not found" + id));
     }
-
 }

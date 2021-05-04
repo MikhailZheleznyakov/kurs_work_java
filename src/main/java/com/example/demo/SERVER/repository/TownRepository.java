@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TownRepository extends JpaRepository<Town, Long> {
-    public Town findTownById(Long id);
+    Town findTownById(Long id);
 
-    public  Town deleteTownById(Long id);
+    Town deleteTownById(Long id);
 }

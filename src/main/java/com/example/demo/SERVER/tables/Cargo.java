@@ -1,9 +1,14 @@
 package com.example.demo.SERVER.tables;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cargos")
+@Getter
+@Setter
+@Table(name = "cargoes")
 public class Cargo {
     public Cargo(){}
     public Cargo(String name, Long weight){
@@ -12,50 +17,18 @@ public class Cargo {
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "weight", nullable = false)
+    @Column(nullable = false)
     private Long weight;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Long weight) {
-        this.weight = weight;
-    }
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order")
     private Order order;
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     @Override
     public String toString() {

@@ -1,53 +1,31 @@
 package com.example.demo.SERVER.tables;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "drivers")
 public class Driver {
     public Driver(){}
-    public Driver(String surname, String name, String transport){
+    public Driver(String surname, String name){
         this.surname = surname;
         this.name = name;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
-    @Column(name = "surname", nullable = false)
+    @Column(nullable = false)
     private String surname;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
 
     @Override
     public String toString() {

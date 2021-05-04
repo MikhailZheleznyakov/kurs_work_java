@@ -1,75 +1,48 @@
 package com.example.demo.SERVER.tables;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "orders")
 public class Order {
     public Order (){}
-    public Order(Long cost){
+    public Order(Integer cost, String delivery_type){
         this.cost = cost;
+        this.delivery_type = delivery_type;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
-    @Column(name = "cost", nullable = false)
-    private Long cost;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getCost() {
-        return cost;
-    }
-
-    public void setCost(Long cost) {
-        this.cost = cost;
-    }
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "client")
-    private Client client;
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
+    @JoinColumn(name = "client_id")
+    private Client client_id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
-    private Rate rate;
+    private Town departtown;
 
-    public Rate getRate() {
-        return rate;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn
+    private Town arrivaltown;
 
-    public void setRate(Rate rate) {
-        this.rate = rate;
-    }
+    @Column
+    private String delivery_type;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
-    public Shipping shipping;
+    @Column
+    private Integer cost;
 
-    public Shipping getShipping() {
-        return shipping;
-    }
-
-    public void setShipping(Shipping shipping) {
-        this.shipping = shipping;
-    }
+    @ManyToOne(fetch =  FetchType.EAGER)
+    @JoinColumn
+    private Transport transport;
 
     @Override
     public String toString() {
@@ -78,6 +51,4 @@ public class Order {
                 ", cost=" + cost +
                 '}';
     }
-
-
 }

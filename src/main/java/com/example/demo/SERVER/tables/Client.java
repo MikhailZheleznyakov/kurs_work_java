@@ -1,9 +1,14 @@
 package com.example.demo.SERVER.tables;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "clients",uniqueConstraints = {@UniqueConstraint(columnNames={"login"})})
 public class Client {
     public Client(){};
@@ -15,71 +20,20 @@ public class Client {
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
-    @Column(name = "surname", nullable = false)
+    @Column(nullable = false)
     private String surname;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "login", nullable = false)
+    @Column(nullable = false)
     private String login;
 
-    @Column(name = "phone", nullable = false)
+    @Column(nullable = false)
     private String phone;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "client")
-    private List<Order> orders;
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
 
     @Override
     public String toString() {
