@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Transport Entity
+ */
 @Entity
 @Getter
 @Setter

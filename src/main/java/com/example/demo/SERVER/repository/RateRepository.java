@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Interface that extends JpaRepository of Rate, Long
+ */
 @Repository
 public interface RateRepository extends JpaRepository<Rate, String> {
 

@@ -5,12 +5,24 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Driver Entity
+ */
 @Entity
 @Getter
 @Setter
 @Table(name = "drivers")
 public class Driver {
+    /**
+     * initializator
+     */
     public Driver(){}
+
+    /**
+     * Initializes Cargo and assigns all parameters
+     * @param surname
+     * @param name
+     */
     public Driver(String surname, String name){
         this.surname = surname;
         this.name = name;
@@ -27,6 +39,10 @@ public class Driver {
     @Column(nullable = false)
     private String name;
 
+    /**
+     *
+     * @return String Driver
+     */
     @Override
     public String toString() {
         return "Driver{" +

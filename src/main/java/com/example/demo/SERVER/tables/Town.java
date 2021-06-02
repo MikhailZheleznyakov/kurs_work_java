@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Town Entity
+ */
 @Entity
 @Getter
 @Setter

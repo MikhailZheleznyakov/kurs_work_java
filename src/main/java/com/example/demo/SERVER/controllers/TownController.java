@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Town controller
+ */
 @RestController
 @RequestMapping("/town")
 public class TownController {

@@ -15,13 +15,22 @@ import java.util.List;
 public class CargoController {
     private final CargoRepository cargoRepository;
 
+    /**
+     *
+     * @param cargoRepository
+     */
     public CargoController(CargoRepository cargoRepository){
         this.cargoRepository = cargoRepository;
     }
 
+    /**
+     *
+     * @param cargo
+     * @return created cargo
+     */
     @PostMapping("/addCargo")
     Cargo createCargo(@RequestBody Cargo cargo) {
-        System.out.println(cargo);
+        System.out.println(cargo.toString());
         return this.cargoRepository.save(cargo);
     }
 

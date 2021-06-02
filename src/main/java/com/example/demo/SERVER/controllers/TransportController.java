@@ -4,16 +4,15 @@ import com.example.demo.SERVER.repository.DriverRepository;
 import com.example.demo.SERVER.repository.TransportRepository;
 import com.example.demo.SERVER.tables.Driver;
 import com.example.demo.SERVER.tables.Transport;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.json.*;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Transport controller
+ */
 @RestController
 @RequestMapping("/transport")
 public class TransportController {

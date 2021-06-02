@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Client controller
+ */
 @RestController
 @RequestMapping("/client")
 public class ClientController {
@@ -18,7 +21,7 @@ public class ClientController {
     }
 
     @PostMapping("/addClient")
-    Client createCargo(@RequestBody Client client){
+    Client createClient(@RequestBody Client client){
         System.out.println(client);
         return this.clientRepository.save(client);
     }

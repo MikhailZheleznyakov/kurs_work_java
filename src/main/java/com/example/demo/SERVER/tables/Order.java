@@ -6,13 +6,25 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Order entity
+ */
 @Entity
 @Getter
 @Setter
 @Table(name = "orders")
 public class Order {
+    /**
+     * Initializator
+     */
     public Order (){}
-    public Order(Integer cost, String delivery_type){
+
+    /**
+     * Initialize Order
+     * @param cost
+     * @param delivery_type
+     */
+    public Order(Double cost, String delivery_type){
         this.cost = cost;
         this.delivery_type = delivery_type;
     }
@@ -38,12 +50,16 @@ public class Order {
     private String delivery_type;
 
     @Column
-    private Integer cost;
+    private Double cost;
 
     @ManyToOne(fetch =  FetchType.EAGER)
     @JoinColumn
     private Transport transport;
 
+    /**
+     * Convert info to String
+     * @return String Order
+     */
     @Override
     public String toString() {
         return "Order{" +

@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Driver controller
+ */
 @RestController
 @RequestMapping("/driver")
 public class DriverController {

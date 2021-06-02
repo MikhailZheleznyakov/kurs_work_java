@@ -5,13 +5,25 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Cargo entity
+ */
 @Entity
 @Getter
 @Setter
 @Table(name = "cargoes")
 public class Cargo {
+    /**
+     * initializer
+     */
     public Cargo(){}
-    public Cargo(String name, Long weight){
+
+    /**
+     * Initializes Cargo and assigns all parameters
+     * @param name
+     * @param weight
+     */
+    public Cargo(String name, Integer weight){
         this.name = name;
         this.weight = weight;
     }
@@ -24,12 +36,15 @@ public class Cargo {
     private String name;
 
     @Column(nullable = false)
-    private Long weight;
+    private Integer weight;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Order order;
 
-
+    /**
+     * Converts information to String object
+     * @return String Cargo
+     */
     @Override
     public String toString() {
         return "Cargo{" +

@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Rate controller
+ */
 @RestController
 @RequestMapping("/rate")
 public class RateController {
