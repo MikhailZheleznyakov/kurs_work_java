@@ -1,12 +1,10 @@
 package com.example.demo.SERVER.controllers;
 
-import com.example.demo.SERVER.DemoApplication;
-import com.example.demo.SERVER.repository.ClientRepository;
-import com.example.demo.SERVER.tables.Client;
-import org.aspectj.lang.annotation.Before;
+import com.example.demo.SERVER.repository.DriverRepository;
+import com.example.demo.SERVER.tables.Driver;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,31 +13,27 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @SpringBootTest
 @AutoConfigureMockMvc
-class ClientControllerTest {
+class DriverControllerTest {
     @Autowired
     public MockMvc mvc;
     @Autowired
-    public ClientRepository clientRepository;
+    public DriverRepository driverRepository;
 
     @Test
-    void createClient() {
+    void createDriver() {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("surname","ПЕТРОВ");
             jsonObject.put("name","ПЕТР");
-            jsonObject.put("login","something@mail.ru");
-            jsonObject.put("phone","+79115000700");
-            this.mvc.perform(MockMvcRequestBuilders.post("http://localhost:8282/client/addClient")
+            this.mvc.perform(MockMvcRequestBuilders.post("http://localhost:8282/driver/addDriver")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonObject.toString())
                     .accept(MediaType.APPLICATION_JSON))
@@ -52,15 +46,15 @@ class ClientControllerTest {
     }
 
     @Test
-    void getClientAll() {
+    void getDriverAll() {
         try {
-            this.mvc.perform(MockMvcRequestBuilders.get("http://localhost:8282/client/getAllClient"))
+            this.mvc.perform(MockMvcRequestBuilders.get("http://localhost:8282/driver/getAllDriver"))
                     .andDo(print())
                     .andExpect(status().is2xxSuccessful())
                     .andExpect(mvcResult -> {
                         String body = mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8);
                         JSONArray jsonArray = new JSONArray(body);
-                        assertEquals(jsonArray.length(), this.clientRepository.findAll().size());
+                        assertEquals(jsonArray.length(), this.driverRepository.findAll().size());
                     })
                     .andReturn();
         } catch (Exception e) {
@@ -69,40 +63,14 @@ class ClientControllerTest {
     }
 
     @Test
-    void updateClient() {
-        try {
-            Client newClient = clientRepository.findClientByLogin("something@mail.ru");
-            JSONObject jsonObject = new JSONObject();
-            if (newClient==null){
-                createClient();
-            }
-            newClient = clientRepository.findClientByLogin("something@mail.ru");
-            jsonObject.put("id", newClient.getId());
-            jsonObject.put("surname",newClient.getSurname());
-            jsonObject.put("name", "МАКСИМ");
-            jsonObject.put("login", newClient.getLogin());
-            jsonObject.put("phone", newClient.getPhone());
-            this.mvc.perform(MockMvcRequestBuilders.put("http://localhost:8282/client/updateClient/"+newClient.getId())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(jsonObject.toString())
-                    .accept(MediaType.APPLICATION_JSON))
-                    .andDo(MockMvcResultHandlers.print())
-                    .andExpect(status().isOk())
-                    .andReturn();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @Test
-    void deleteClient() {
+    void deleteDriver() {
         try{
-            Client newClient = clientRepository.findClientByLogin("something@mail.ru");
-            if (newClient == null){
-                createClient();
+            Driver newDriver = driverRepository.findDriverBySurname("ПЕТРОВ");
+            if (newDriver == null){
+                createDriver();
             }
-            this.mvc.perform(MockMvcRequestBuilders.delete("http://localhost:8282/client/deleteClient/"+newClient.getId())
+            newDriver = driverRepository.findDriverBySurname("ПЕТРОВ");
+            this.mvc.perform(MockMvcRequestBuilders.delete("http://localhost:8282/driver/deleteDriver/"+newDriver.getId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
@@ -111,4 +79,27 @@ class ClientControllerTest {
         }
     }
 
+    @Test
+    void updateDriver() {
+        try {
+            Driver newDriver = driverRepository.findDriverBySurname("ПЕТРОВ");
+            JSONObject jsonObject = new JSONObject();
+            if (newDriver == null){
+                createDriver();
+            }
+            newDriver = driverRepository.findDriverBySurname("ПЕТРОВ");
+            jsonObject.put("id", newDriver.getId());
+            jsonObject.put("surname",newDriver.getSurname());
+            jsonObject.put("name", "МАКСИМ");
+            this.mvc.perform(MockMvcRequestBuilders.put("http://localhost:8282/driver/updateDriver/"+newDriver.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(jsonObject.toString())
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andReturn();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

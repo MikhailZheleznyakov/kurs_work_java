@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface RateRepository extends JpaRepository<Rate, String> {
 
     Optional<Rate> findById(Long id);
+
+    Rate findRateByArrivaltownAndDeparttownAndCost(int arrivailtown, int departtown, int cost);
 }

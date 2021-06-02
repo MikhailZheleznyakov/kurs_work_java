@@ -12,4 +12,6 @@ public interface TownRepository extends JpaRepository<Town, Long> {
     Town findTownById(Long id);
 
     Town deleteTownById(Long id);
+
+    Town findTownByName(String s);
 }

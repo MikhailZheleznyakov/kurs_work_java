@@ -14,4 +14,5 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
 
     Driver deleteDriverById(Long id);
 
+    Driver findDriverBySurname(String s);
 }
