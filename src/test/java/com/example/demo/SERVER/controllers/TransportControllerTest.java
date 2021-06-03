@@ -113,7 +113,7 @@ class TransportControllerTest {
             jsonDriver.put("id", driver.getId());
             jsonDriver.put("surname", driver.getSurname());
             jsonDriver.put("name", driver.getName());
-            jsonObject.put("driver_id", jsonDriver);
+            jsonObject.put("driver", jsonDriver);
             this.mvc.perform(MockMvcRequestBuilders.put("http://localhost:8282/transport/updateTransport/"+newTransport.getId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonObject.toString())

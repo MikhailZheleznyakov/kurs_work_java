@@ -31,4 +31,6 @@ public interface CargoRepository extends JpaRepository<Cargo, Long> {
      * @return cargo object
      */
     Optional<Cargo> findById(Long id);
+
+    Cargo findCargoByName(String  name);
 }

@@ -50,7 +50,7 @@ class RateControllerTest {
             jsonDepartTown.put("info", departtown.getInfo());
             jsonObject.put("arrivaltown", jsonArrTown);
             jsonObject.put("departtown", jsonDepartTown);
-            jsonObject.put("cost",200);
+            jsonObject.put("cost",20000);
             this.mvc.perform(MockMvcRequestBuilders.post("http://localhost:8282/rate/addRate")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonObject.toString())
@@ -83,10 +83,10 @@ class RateControllerTest {
     @Test
     void deleteRate() {
         try{
-            Rate newRate = rateRepository.findRateByArrivaltownAndDeparttownAndCost(1, 2, 200);
+            Rate newRate = rateRepository.findRateByCost(Long.valueOf(20000));
             if (newRate == null){
                 addRate();
-                newRate = rateRepository.findRateByArrivaltownAndDeparttownAndCost(1, 2, 200);
+                newRate = rateRepository.findRateByCost(Long.valueOf(20000));
             }
             this.mvc.perform(MockMvcRequestBuilders.delete("http://localhost:8282/rate/deleteRate/"+newRate.getId())
                     .contentType(MediaType.APPLICATION_JSON)
@@ -101,21 +101,33 @@ class RateControllerTest {
     void updateRate() {
         try{
             Rate newRate = new Rate();
-            newRate = rateRepository.findRateByArrivaltownAndDeparttownAndCost(1, 2, 200);
+            newRate = rateRepository.findRateByCost(Long.valueOf(20000));
             if (newRate == null){
                 addRate();
-                newRate = rateRepository.findRateByArrivaltownAndDeparttownAndCost(1, 2, 200);
+                newRate = rateRepository.findRateByCost(Long.valueOf(20000));
             }
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", newRate.getId());
-            jsonObject.put("arrivaltown", newRate.getArrivaltown());
-            jsonObject.put("departtown", newRate.getDeparttown());
+            Town arrtown = new Town();
+            arrtown = townRepository.findTownByName("Вологда");
+            JSONObject jsonArrTown = new JSONObject();
+            jsonArrTown.put("id", arrtown.getId());
+            jsonArrTown.put("name", arrtown.getName());
+            jsonArrTown.put("info", arrtown.getInfo());
+            Town departtown = new Town();
+            departtown = townRepository.findTownByName("Москва");
+            JSONObject jsonDepartTown = new JSONObject();
+            jsonDepartTown.put("id", departtown.getId());
+            jsonDepartTown.put("name", departtown.getName());
+            jsonDepartTown.put("info", departtown.getInfo());
+            jsonObject.put("arrivaltown", jsonArrTown);
+            jsonObject.put("departtown", jsonDepartTown);
             jsonObject.put("cost", 1000);
             this.mvc.perform(MockMvcRequestBuilders.put("http://localhost:8282/rate/updateRate/"+newRate.getId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonObject.toString())
                     .accept(MediaType.APPLICATION_JSON))
-                    .andDo(MockMvcResultHandlers.print())
+                    .andDo(print())
                     .andExpect(status().isOk())
                     .andReturn();
         } catch (Exception e) {
